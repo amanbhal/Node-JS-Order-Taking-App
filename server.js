@@ -18,40 +18,54 @@
     app.use(methodOverride());
     
     // define model =================
+    
     var Food = mongoose.model('Food', {
-        text : String
+        text : String,
+        price: Number
     });
     
     // routes ======================================================================
 
     // api ------------
-    app.get('/api/foods', function(req, res) {
-
-        // use mongoose to get all todos in the database
-        Food.find(function(err, foods) {
+    app.get('/api/totals', function(req, res) {
+      Food.find(function(err, foods) {
 
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err){
               res.send(err);
             }
+            var totalPrice = 0.0;
+            for(var i=0; i<foods.length; i++){
+              totalPrice += foods[i].price;
+            }
+            var returnObj = {total:totalPrice};
+            res.send(returnObj); 
+        });
+    });
+    
+    app.get('/api/foods', function(req, res) {
 
-            res.json(foods); // return all todos in JSON format
+        Food.find(function(err, foods) {
+
+            if (err){
+              res.send(err);
+            }
+
+            res.json(foods);
         });
     });
 
-    // create todo and send back all todos after creation
     app.post('/api/foods', function(req, res) {
 
-        // create a todo, information comes from AJAX request from Angular
         Food.create({
             text : req.body.text,
+            price : req.body.value,
             done : false
         }, function(err, food) {
             if (err){
               res.send(err);
             }
 
-            // get and return all the todos after you create another
             Food.find(function(err, foods) {
                 if (err){
                     res.send(err);
@@ -62,7 +76,6 @@
 
     });
 
-    // delete a todo
     app.delete('/api/foods/:food_id', function(req, res) {
         Food.remove({
             _id : req.params.food_id
@@ -71,7 +84,6 @@
                 res.send(err);
             }
 
-            // get and return all the todos after you create another
             Food.find(function(err, foods) {
                 if (err){
                     res.send(err);
