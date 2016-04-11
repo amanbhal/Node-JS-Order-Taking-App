@@ -30,18 +30,20 @@
             <h1>Please provide your order <span class="label label-info">{{ foods.length }}</span></h1>
         </div>
 
-        <div id="food-list" class="row">
+        <div id="food-list" align="center" class="row">
             <div class="col-sm-4 col-sm-offset-4">
 
                 <div class="checkbox" ng-repeat="food in foods">
                     <label>
-                        <input type="checkbox" ng-click="deleteFood(food._id)"> <b>ITEM:</b>&nbsp;&nbsp;&nbsp;{{ food.text }} &nbsp;&nbsp;&nbsp;&nbsp; <b>PRICE:</b>&nbsp;&nbsp;&nbsp;{{ food.price }}
+                        <input type="checkbox" ng-click="deleteFood(food._id)"> <b>ITEM:</b>&nbsp;&nbsp;&nbsp;{{ food.text }} &nbsp;&nbsp;&nbsp;&nbsp; <b>PRICE:</b>&nbsp;&nbsp;&nbsp;${{ food.price }}
                     </label>
                 </div>
 
             </div>
         </div>
-
+        <div class="container" align="center" ng-app="amanFood" ng-controller="mainController">
+            <h2>Order Total: {{ total }}</h2>
+        </div>
         <div id="food-form" class="row">
             <div class="col-sm-8 col-sm-offset-2 text-center">
                 <form>
@@ -56,9 +58,7 @@
                 </form>
             </div>
         </div>
-        <div class="container" align="center" ng-app="amanFood" ng-controller="mainController">
-            <h2>Total of the order list is {{ total }}</h2>
-        </div>
+        <br>
     </div>
 
 </body>

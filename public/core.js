@@ -2,7 +2,6 @@ var amanFood = angular.module('amanFood', []);
 
 function mainController($scope, $http) {
     $scope.formData = {};
-    console.log("**********")
     $http.get('/api/foods')
         .success(function(data) {
             $scope.foods = data;
@@ -10,13 +9,18 @@ function mainController($scope, $http) {
         })
         .error(function(data) {
             console.log('Error: ' + data);
-        });    
+        });   
+        
     var total = function(){
         $http.get('/api/totals')
             .success(function(data){
                 $scope.total = data.total;
+            })
+            .error(function(data){
+                console.log('Error: ' + data);
             });
     }
+    
     $scope.createFood = function() {
         $http.post('/api/foods', $scope.formData)
             .success(function(data) {
@@ -28,9 +32,6 @@ function mainController($scope, $http) {
             .error(function(data) {
                 console.log('Error: ' + data);
             });
-        
-          
-    
     };
 
     $scope.deleteFood = function(id) {
@@ -43,7 +44,5 @@ function mainController($scope, $http) {
             .error(function(data) {
                 console.log('Error: ' + data);
             });
-    
     };
-
 }
