@@ -5,13 +5,12 @@ function mainController($scope, $http) {
     console.log("**********")
     $http.get('/api/foods')
         .success(function(data) {
-            $scope.todos = data;
+            $scope.foods = data;
             console.log(data);
         })
         .error(function(data) {
             console.log('Error: ' + data);
-        });
-        
+        });    
     var total = function(){
         $http.get('/api/totals')
             .success(function(data){
@@ -24,16 +23,13 @@ function mainController($scope, $http) {
                 $scope.formData = {};
                 $scope.foods = data;
                 console.log(data);
+                total();
             })
             .error(function(data) {
                 console.log('Error: ' + data);
             });
         
-        total();    
-        // $http.get('/api/totals')
-        //     .success(function(data){
-        //         $scope.total = data.total;
-        //     });
+          
     
     };
 
@@ -42,15 +38,11 @@ function mainController($scope, $http) {
             .success(function(data) {
                 $scope.foods = data;
                 console.log(data);
+                total();
             })
             .error(function(data) {
                 console.log('Error: ' + data);
             });
-        total();
-        // $http.get('/api/totals')
-        //     .success(function(data){
-        //         $scope.total = data.total;
-        //     });
     
     };
 
